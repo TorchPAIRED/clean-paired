@@ -322,6 +322,29 @@ class AdversarialEnv(multigrid.MultiGridEnv):
         'random_z': self.generate_random_z()
     }
 
+    if done:
+      import numpy
+      import sys
+      numpy.set_printoptions(threshold=sys.maxsize)
+      from social_rl.gym_multigrid.envs.configuration import MinigridConfiguration
+      conf = MinigridConfiguration(image, self.agent_start_pos, self.agent_start_dir, self.goal_pos, False, True, 15)
+      filestring = conf.to_filestring()
+      from social_rl.gym_multigrid.envs.configuration import get_root_dir
+      root_dir = get_root_dir() + "/offline_configurations" #"/home/velythyl/Desktop/temperino"#FLAGS.root_dir + "/offline_configurations"
+      try:
+        import os
+        os.mkdir(root_dir)
+      except FileExistsError:
+        pass
+      import uuid
+      import time
+      id = str(uuid.uuid4()) + "_s_" + str(time.time_ns()) + ".grid"
+      id = id.replace("-", "_")
+      #print(root_dir)
+      #print(id)
+      with open(root_dir + "/" + id, "w") as f:
+        f.write(filestring)
+
     return obs, 0, done, {}
 
   def reset_random(self):

@@ -167,6 +167,8 @@ def train_eval(
     summarize_grads_and_vars=True,
     eval_metrics_callback=None,
     debug=True):
+  from social_rl.gym_multigrid.envs.configuration import set_root_dir
+  set_root_dir(root_dir)
   """Adversarial environment train and eval."""
   tf.compat.v1.enable_v2_behavior()
 
