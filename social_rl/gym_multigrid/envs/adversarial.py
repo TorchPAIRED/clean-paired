@@ -338,12 +338,20 @@ class AdversarialEnv(multigrid.MultiGridEnv):
         pass
       import uuid
       import time
-      id = str(uuid.uuid4()) + "_s_" + str(time.time_ns()) + ".grid"
+      id = str(uuid.uuid4()) + "_s_" + str(time.time_ns())
       id = id.replace("-", "_")
       #print(root_dir)
       #print(id)
-      with open(root_dir + "/" + id, "w") as f:
+      with open(root_dir + "/" + id + ".grid", "w") as f:
         f.write(filestring)
+
+      with open(root_dir + "/" + id + ".cmpl", "w") as f:
+        from social_rl.gym_multigrid.envs.complexity import analyze_grid
+        lz, rw = analyze_grid(image)
+        f.write(f"{lz},{rw},{(1/rw) if rw != 0 else rw}\n")
+
+      from PIL import Image
+      Image.fromarray(self.render(mode="rgb_array")).save(f"{root_dir}/{id}.jpg")
 
     return obs, 0, done, {}
 
