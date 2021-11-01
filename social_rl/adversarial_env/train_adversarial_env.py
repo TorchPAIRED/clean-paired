@@ -23,7 +23,6 @@ python -m train_adversarial_env --root_dir=/tmp/adversarial_env/
 ```
 """
 
-
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -49,10 +48,6 @@ from social_rl.adversarial_env import adversarial_env_parallel
 from social_rl.adversarial_env import adversarial_eval
 from social_rl.adversarial_env import agent_train_package
 
-import tensorflow as tf
-gpus = tf.config.experimental.list_physical_devices('GPU')
-for gpu in gpus:
-  tf.config.experimental.set_memory_growth(gpu, True)
 
 flags.DEFINE_string('root_dir', os.getenv('TEST_UNDECLARED_OUTPUTS_DIR'),
                     'Root directory for writing logs/summaries/checkpoints.')
